@@ -15,19 +15,26 @@ public class MainActivity extends AppCompatActivity {
 
         //ống nước : thread
         //nguồn nước : runable
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(MainActivity.this, "Xin chao", Toast.LENGTH_SHORT).show();
-            }
-        });
-        Thread thread = new Thread(new Runnable() {
+        Thread threada = new Thread(new Runnable() {
             @Override
             public void run() {
                 //running
-
+               handle("Thead A");
             }
         });
-        thread.start();
+        Thread threadb = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //running
+                handle("Thead B");
+            }
+        });
+        threadb.start();
+        threada.start();
+    }
+    public void handle(String key){
+        for (int i = 0 ; i<= 100 ; i++){
+            Log.d("BBB",key + " : " + i);
+        }
     }
 }
