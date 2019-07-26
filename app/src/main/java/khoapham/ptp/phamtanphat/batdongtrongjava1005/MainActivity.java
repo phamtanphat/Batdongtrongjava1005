@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //running
-
                 for (int i = 0; i <= 100; i++) {
                     synchronized (laco) {
                         if (laco.vitri == 0) {
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }
-
                 }
             }
         });
@@ -48,8 +46,20 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 //running
                 for (int i = 0; i <= 100; i++) {
-                    b += 2;
-                    Log.d("BBB", "Thead B " + b + " , Vi tri " + i);
+                    synchronized (laco){
+                        if (laco.vitri == 1){
+                            b += 2;
+                            Log.d("BBB", "Thead B " + b + " , Vi tri " + i);
+                            laco.vitri = 2;
+                        }else{
+                            try {
+                                laco.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
                 }
             }
         });
@@ -58,8 +68,20 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 //running
                 for (int i = 0; i <= 100; i++) {
-                    c = a + b;
-                    Log.d("BBB", "Thead C " + c + " , Vi tri " + i);
+                    synchronized (laco){
+                        if (laco.vitri == 2){
+                            c = a + b;
+                            Log.d("BBB", "Thead C " + c + " , Vi tri " + i);
+                            laco.vitri = 0;
+                        }else{
+                            try {
+                                laco.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
                 }
             }
         });
