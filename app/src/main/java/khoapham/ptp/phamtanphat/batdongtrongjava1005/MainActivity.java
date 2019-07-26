@@ -9,7 +9,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    synchronized protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
         threadb.start();
         threada.start();
     }
-    public void handle(String key){
-        for (int i = 0 ; i<= 100 ; i++){
+    synchronized public void handle(String key){
+        for (int i = 0 ; i<= 1000 ; i++){
             Log.d("BBB",key + " : " + i);
         }
     }
