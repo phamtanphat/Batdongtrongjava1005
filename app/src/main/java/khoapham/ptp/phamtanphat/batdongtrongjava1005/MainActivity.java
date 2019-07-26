@@ -8,8 +8,9 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    int a ,b ,c = 0;
     @Override
-    synchronized protected void onCreate(Bundle savedInstanceState) {
+     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -19,22 +20,35 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //running
-               handle("Thead A");
+               for (int i = 0 ; i<= 100 ; i++){
+                   a += 1;
+                   Log.d("BBB","Thead A " + a + " , Vi tri "+ i );
+               }
             }
         });
         Thread threadb = new Thread(new Runnable() {
             @Override
             public void run() {
                 //running
-                handle("Thead B");
+                for (int i = 0 ; i<= 100 ; i++){
+                    b += 2;
+                    Log.d("BBB","Thead B " + b + " , Vi tri "+ i );
+                }
             }
         });
-        threadb.start();
+        Thread threadc = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //running
+                for (int i = 0 ; i<= 100 ; i++){
+                    c = a + b;
+                    Log.d("BBB","Thead C " + c + " , Vi tri "+ i );
+                }
+            }
+        });
         threada.start();
+        threadb.start();
+        threadc.start();
     }
-    synchronized public void handle(String key){
-        for (int i = 0 ; i<= 1000 ; i++){
-            Log.d("BBB",key + " : " + i);
-        }
-    }
+
 }
